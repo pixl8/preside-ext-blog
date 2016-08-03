@@ -1,0 +1,19 @@
+{
+    "name":"PresideCMS Extension: Blog",
+    "version":"0.5.0.BUILD_NUMBER",
+    "author":"Pixl8 Interactive",
+    "createPackageDirectory":true,
+    "packageDirectory":"application/extensions/preside-ext-blog",
+    "homepage":"https://github.com/pixl8/preside-ext-blog",
+    "documentation":"",
+    "repository":{
+        "type":"git",
+        "URL":"https://github.com/pixl8/preside-ext-blog.git"
+    },
+    "slug":"preside-ext-blog",
+    "projectURL":"",
+    "ignore":[
+        ".git/*",
+        ".gitignore"
+    ]
+}
