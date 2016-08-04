@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form i18nBaseUri="widgets.blog_tag_list:">
+	<tab>
+		<fieldset>
+            <field name="blog" control="objectpicker" object="blog" required="true" />
+			<field name="title" />
+			<field name="featured" control="yesnoswitch" default="false" />
+		</fieldset>
+	</tab>
+</form>

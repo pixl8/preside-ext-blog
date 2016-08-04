@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form i18nBaseUri="page-types.blog_post:">
+	<tab id="main">
+		<fieldset id="main">
+			<field sortorder="70" binding="blog_post.postAuthor"    quickAdd="true" quickEdit="true" />
+			<field sortorder="71" binding="blog_post.publish_date"  required="true" />
+			<field sortorder="80" binding="page.active"             required="true" />
+		</fieldset>
+	</tab>
+
+	<tab id="tagging" sortorder="15">
+		<fieldset id="tagging">
+			<field sortorder="40" binding="blog_post.tags" 		 quickadd="true" quickedit="true" />
+		</fieldset>
+	</tab>
+
+	<tab id="blog_post">
+		<fieldset id="blog_post">
+			<field binding="blog_post.top_post" />
+			<field binding="blog_post.allow_comments" />
+		</fieldset>
+	</tab>
+</form>

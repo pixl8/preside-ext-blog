@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form i18nBaseUri="system-config.disqus:">
+	<tab id="default">
+		<fieldset>
+			<field name="short_name" />
+		</fieldset>
+	</tab>
+</form>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form i18nBaseUri="widgets.blog_post_list:">
+	<tab>
+		<fieldset>
+            <field name="blog"               control="objectpicker" object="blog" required="true" />
+			<field name="title" />
+			<field name="top_posts_only"     control="yesnoswitch" default="false" />
+            <field name="most_viewed"        control="yesnoswitch" default="false" />
+            <field name="collapse_on_mobile" control="yesnoswitch" default="false" />
+            <field name="show_author_name"   control="yesnoswitch" default="false" />
+			<field name="show_publish_date"  control="yesnoswitch" default="false" />
+            <field name="max_items"          control="spinner"     default="5" />
+		</fieldset>
+	</tab>
+</form>

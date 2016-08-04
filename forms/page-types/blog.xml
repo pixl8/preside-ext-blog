@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form i18nBaseUri="page-types.blog:">
+	<tab id="main">
+		<fieldset id="main">
+            <field name="main_content" deleted="true" />
+			<field binding="blog.sidebar_content" />
+			<field binding="blog.initial_max_rows" required="true" />
+		</fieldset>
+	</tab>
+</form>
