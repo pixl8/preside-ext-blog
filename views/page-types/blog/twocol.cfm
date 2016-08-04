@@ -1,5 +1,9 @@
 <cf_presideparam name="args.title" type="string" field="page.title" editable="true" />
 
+<cfscript>
+    // TODO: check if we should integrate that in the extension or have it in the skeleton
+    event.include( assetId="/css/specific/blog-post/", throwOnMissing=false )
+</cfscript>
 <cfoutput>
     <div class="contents">
         <div class="main-content">
