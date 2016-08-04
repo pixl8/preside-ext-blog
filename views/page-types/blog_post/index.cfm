@@ -11,8 +11,9 @@
 <cfscript>
 	bannerImageSource = len(args.main_image) ? event.buildLink( assetId=args.main_image, derivative= "blogPostBanner"  ) : "";
 
-	event.include( "/css/specific/blog-post/" )
-		 .include( assetId="jq-parallax" );
+	// TODO: check if we should integrate that in the extension or have it in the skeleton
+	event.include( assetId="/css/specific/blog-post/", throwOnMissing=false )
+		 .include( assetId="jq-parallax", throwOnMissing=false );
 </cfscript>
 
 <cfoutput>
