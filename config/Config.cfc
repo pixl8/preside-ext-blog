@@ -9,7 +9,7 @@ component {
         derivatives.blogPostBanner = {
               permissions = "inherit"
             , transformations = [
-                  { method="Resize", args={ width=1440, height=567, maintainaspectratio=false } }
+                  { method="Resize", args={ width=1440, height=567, maintainaspectratio=true } }
               ]
         };
 
@@ -23,14 +23,14 @@ component {
         derivatives.blogMainImageTeaserSmall = {
               permissions = "inherit"
             , transformations = [
-                  { method="Resize", args={ width=302, height=142, maintainaspectratio=false } }
+                  { method="Resize", args={ width=302, height=142, maintainaspectratio=true } }
               ]
         };
 
         derivatives.blogMainImageTeaser = {
               permissions = "inherit"
             , transformations = [
-                  { method="Resize", args={ width=413, height=195, maintainaspectratio=false } }
+                  { method="Resize", args={ width=413, height=195, maintainaspectratio=true } }
               ]
         };
     }
