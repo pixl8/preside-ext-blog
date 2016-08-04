@@ -4,7 +4,7 @@ component {
 
 	private function index( event, rc, prc, args={} ) {
 
-		prc.tags = blogService.getBlogPostTags( parentPage=( args.blog ?:"invalidId" ), featuredOnly=args.featured ?: false );
+		args.tags = blogService.getBlogPostTags( parentPage=( args.blog ?:"invalidId" ), featuredOnly=args.featured ?: false );
 		
 		return renderView( view='widgets/blog_tag_list/index', args=args );
 	}

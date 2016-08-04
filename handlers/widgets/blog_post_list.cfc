@@ -17,7 +17,7 @@ component {
         showAuthorName      = isBoolean( showAuthorName ) && showAuthorName   ? true    : false;
         maxRows             = isValid("integer", maxRows) && maxRows > 0      ? maxRows : 5;
 
-        prc.blogPosts = blogService.getFilteredBlogPosts(
+        args.blogPosts = blogService.getFilteredBlogPosts(
               parentPage=args.blog ?: "invalidId"
             , topPostsOnly=topPostsOnly
             , mostViewed=mostViewed
@@ -25,20 +25,20 @@ component {
         );
 
         // cache busting
-        prc.blogPosts = duplicate( prc.blogPosts );
+        args.blogPosts = duplicate( args.blogPosts );
 
-        prc.blogPosts.addColumn( "subline", "varchar", [] );
+        args.blogPosts.addColumn( "subline", "varchar", [] );
 
         if ( showPublishDate || showAuthorName ) {
-            loop query="prc.blogPosts" {
+            loop query="args.blogPosts" {
                 if ( showPublishDate && showAuthorName ) {
-                    prc.blogPosts.setCell( "subline", dateFormat( publish_date, "dd mmm yyyy" ) & " - " & postAuthor, currentRow );
+                    args.blogPosts.setCell( "subline", dateFormat( publish_date, "dd mmm yyyy" ) & " - " & postAuthor, currentRow );
                 }
                 else if ( showPublishDate ) {
-                    prc.blogPosts.setCell( "subline", dateFormat( publish_date, "dd mmm yyyy" ), currentRow );
+                    args.blogPosts.setCell( "subline", dateFormat( publish_date, "dd mmm yyyy" ), currentRow );
                 }
                 else if ( showAuthorName ) {
-                    prc.blogPosts.setCell( "subline", postAuthor, currentRow );
+                    args.blogPosts.setCell( "subline", postAuthor, currentRow );
                 }
             }
         }

@@ -1,7 +1,7 @@
 <cfparam name="args.title" default="" />
 <cfparam name="args.collapse_on_mobile" default="false" />
 
-<cfif prc.blogPosts.recordCount gt 0>
+<cfif args.blogPosts.recordCount gt 0>
 	<cfsilent>
 		<cfset cssClass = "widget widget-list" />
 		<cfif isBoolean( args.collapse_on_mobile ) && args.collapse_on_mobile>
@@ -16,7 +16,7 @@
 
 			<div class="widget-content">
 				<ul>
-					<cfloop query="prc.blogPosts">	
+					<cfloop query="args.blogPosts">	
 						<li>
 							<h4><a href="#event.buildLink( page=id )#">#title#</a></h4>
 							<cfif subline.len()>

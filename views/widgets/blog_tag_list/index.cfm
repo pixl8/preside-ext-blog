@@ -1,7 +1,7 @@
 <cfparam name="args.title" default="" />
 <cfparam name="args.blog" default="" />
 
-<cfif prc.tags.recordCount gt 0>
+<cfif args.tags.recordCount gt 0>
 	<cfoutput>
 		<div class="widget widget-tags">
 			<cfif args.title.len()>
@@ -10,7 +10,7 @@
 
 			<div class="widget-content">
 				<ul class="tags">
-					<cfloop query="prc.tags">
+					<cfloop query="args.tags">
 						#renderView( view='widgets/blog_tag_list/_item', args={
 							  id 		= id
 							, label 	= label
