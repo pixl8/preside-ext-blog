@@ -1,6 +1,6 @@
 {
     "name":"PresideCMS Extension: Blog",
-    "version":"0.5.0.BUILD_NUMBER",
+    "version":"0.5.0",
     "author":"Pixl8 Interactive",
     "createPackageDirectory":true,
     "packageDirectory":"application/extensions/preside-ext-blog",
