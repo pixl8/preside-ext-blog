@@ -1,6 +1,7 @@
 component {
 
     property name="blogService" inject="blogService";
+    property name="blogDao" inject="presidecms:object:blog";
 
     private function index( event, rc, prc, args={} ) {
 
@@ -47,7 +48,10 @@ component {
     }
 
     private function placeholder( event, rc, prc, args={} ) {
-        // TODO: create your handler logic here
+
+        var blog       = blogDao.selectData( id=args.blog, selectFields=[ "page.title" ] );
+        args.blogTitle = blog.title;
+        
         return renderView( view='widgets/blog_post_list/placeholder', args=args );
     }
 }

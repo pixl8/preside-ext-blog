@@ -89,9 +89,8 @@ component {
         var filterKey  = "blog_tag_filter" & arguments.blog;
         var tagFilters = sessionStorage.exists( filterKey ) ? duplicate( sessionStorage.getVar( filterKey ) ) : [];
 
-        if ( !tagFilters.len() ) {
-            // use a dummy value so that no data is returned
-            tagFilters.append( "invalid" );
+        if ( isEmpty( tagFilters ) ) {
+            return queryNew( "dummy" );
         }
 
         return blogService.getBlogPostTags( parentPage=arguments.blog, tags=tagFilters );

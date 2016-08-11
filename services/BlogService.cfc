@@ -55,15 +55,23 @@
             filter &= " and blog_post.top_post = 1";
         }
 
-        var q = _getBlogPostDao().selectData(
+        var args = {
               selectFields = selectFields
             , filter       = filter
             , filterParams = params
             , savedFilters = [ "livePages" ]
             , orderBy      = orderBy
-            , maxRows      = arguments.maxRows
-            , startRow     = arguments.startRow
-        );
+        };
+
+        if ( arguments.maxRows > 0 ) {
+            args.maxRows = arguments.maxRows;
+        }
+
+        if ( arguments.startRow > 1 ) {
+            args.startRow = arguments.startRow;
+        }
+
+        var q = _getBlogPostDao().selectData( argumentCollection=args );
 
         if ( arguments.includeTotalRecordCount ) {
 
@@ -89,7 +97,7 @@
 
         // workaround to be able to use the saved filter, otherwise page table is not joined at all
         var filter = "page.active = 1";
-        var params       = {};
+        var params = {};
 
         if ( arguments.parentPage.len() ) {
             filter &= " and page.parent_page = :parentPage";
@@ -111,7 +119,93 @@
             , filterParams = params
             , savedFilters = [ "livePages" ]
             , groupBy      = "blog_tag.id, blog_tag.label"
+            , orderBy      = "blog_tag.label"
         );
+    }
+
+    public query function getBlogPostAuthors( string parentPage = "", array authors=[] ) {
+
+        // workaround to be able to use the saved filter, otherwise page table is not joined at all
+        var filter = "page.active = 1";
+        var params = {};
+
+        if ( arguments.parentPage.len() ) {
+            filter &= " and page.parent_page = :parentPage";
+            params.parentPage = { value=arguments.parentPage, type="varchar" };
+        }
+
+        if ( arguments.authors.len() ) {
+            filter &= " and postAuthor in (:postAuthor)";
+            params[ "postAuthor" ] = arguments.authors;
+        }
+
+        return _getBlogPostDao().selectData(
+              selectFields = [ "distinct postAuthor.id", "postAuthor.name", "count(*) as post_count" ]
+            , filter       = filter
+            , filterParams = params
+            , savedFilters = [ "livePages" ]
+            , groupBy      = "postAuthor.id, postAuthor.name"
+            , orderBy      = "postAuthor.name"
+        );
+    }
+
+    public array function getBlogPostArchive( string parentPage = "" ) {
+
+        // workaround to be able to use the saved filter, otherwise page table is not joined at all
+        var filter = "page.active = 1";
+        var params = {};
+
+        if ( arguments.parentPage.len() ) {
+            filter &= " and page.parent_page = :parentPage";
+            params.parentPage = { value=arguments.parentPage, type="varchar" };
+        }
+
+        var blogPosts = _getBlogPostDao().selectData(
+              selectFields = [ "id", "publish_date" ]
+            , filter       = filter
+            , filterParams = params
+            , savedFilters = [ "livePages" ]
+            , orderBy      = "publish_date desc"
+        );
+
+        var result = [];
+
+        if ( !isEmpty( blogPosts ) ) {
+
+            var postCounts = {};
+
+            // build helper struct to determine number of posts per year and month
+            loop query="blogPosts" {
+                var currentYear = year( publish_date );
+                var currentMonth = month( publish_date );
+
+                if ( !postCounts.keyExists( currentYear ) ) {
+                    postCounts[ currentYear ] = {};
+                }
+
+                if ( !postCounts[ currentYear ].keyExists( currentMonth ) ) {
+                    postCounts[ currentYear ][ currentMonth ] = 0;
+                }
+                postCounts[ currentYear ][ currentMonth ]++;
+            }
+
+            // sort it (years descending, months ascending)
+            var years = postCounts.keyArray();
+
+            arraySort( years, "numeric", "desc" );
+
+            for ( var currentYear in years ) {
+                var months = postCounts[ currentYear ].keyArray();
+                arraySort( months, "numeric", "asc" );
+                var monthlyPostCount = [];
+                for ( var currentMonth in months ) {
+                    monthlyPostCount.append( { month=currentMonth, postCount=postCounts[ currentYear ][ currentMonth ] } );
+                }
+                result.append( { year=currentYear, months=monthlyPostCount });
+            }
+        }
+
+        return result;
     }
 
 // PRIVATE HELPER METHODS

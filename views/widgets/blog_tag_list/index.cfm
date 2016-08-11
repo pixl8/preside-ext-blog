@@ -1,7 +1,7 @@
 <cfparam name="args.title" default="" />
 <cfparam name="args.blog" default="" />
 
-<cfif args.tags.recordCount gt 0>
+<cfif !isEmpty( args.tags )>
 	<cfoutput>
 		<div class="widget widget-tags">
 			<cfif args.title.len()>
