@@ -6,7 +6,7 @@
 <!--- TODO: i18n --->
 <cfscript>
 	tooltip = args.post_count gt 1 ? args.post_count & " posts" : "1 post";
-    link = event.buildLink( page=args.blog, querystring="add_tag_filter=" & args.id );
+    link = event.buildLink( page=args.blog, querystring="filterAction=add&filterType=tags&filterValue=" & args.id );
 </cfscript>
 <cfoutput>
 	<li title="#tooltip#"><a href="#link#">#args.label#</a></li>

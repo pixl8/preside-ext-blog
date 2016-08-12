@@ -23,7 +23,7 @@
                                         <cfset monthLabel = lsDateFormat( createDate( currentYear.year, currentMonth.month, 1 ), "mmm" ) />
                                         <!--- TODO: i18n --->
                                         <cfset tooltip = currentMonth.postCount gt 1 ? currentMonth.postCount & " posts" : "1 post" />
-                                        <cfset link = event.buildLink( page=args.blog, querystring="add_archive_filter=" & currentYear.year & "_" & currentMonth.month ) />
+                                        <cfset link = event.buildLink( page=args.blog, querystring="filterAction=add&filterType=archives&filterValue=" & currentYear.year & "_" & currentMonth.month ) />
                                         <a href="#link#" title="#tooltip#">#monthLabel#</a>
                                     </cfloop>
                                 </div>

@@ -14,7 +14,7 @@
             <div class="collapsible-item-content">
                 <ul>
                     <cfloop query="args.data">
-                        <li><a href="#event.buildLink( page=args.blog, querystring='add_tag_filter=' & id )#">#label# <span class="count">#post_count#</span></a></li>
+                        <li><a href="#event.buildLink( page=args.blog, querystring='filterAction=add&filterType=tags&filterValue=' & id )#">#label# <span class="count">#post_count#</span></a></li>
                     </cfloop>
                 </ul>
             </div>

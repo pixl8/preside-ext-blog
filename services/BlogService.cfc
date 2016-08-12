@@ -20,13 +20,13 @@
           string  parentPage              = ""
         , array   tags                    = []
         , array   postAuthors             = []
+        , array   archives                = [] // this is an array of strings that looks like e.g. [ "2016_8", "2015_1" ]
         , numeric maxRows                 = 10
         , numeric startRow                = 1
         , boolean topPostsOnly            = false
         , boolean mostViewed              = false
         , boolean includeTotalRecordCount = false
     ) {
-
         var filter                 = "1 = 1";
         var params                 = {};
         var isPageViewCountEnabled = _isPageViewCountEnabled();
@@ -49,6 +49,25 @@
         if ( arguments.postAuthors.len() ) {
             filter &= " and blog_author.id in (:blog_author.id)";
             params[ "blog_author.id" ] = arguments.postAuthors;
+        }
+
+        if ( arguments.archives.len() ) {
+            
+            var archiveFilterDetails = [];
+
+            for ( var archiveKey in arguments.archives ) {
+                var monthNumber = listLast( archiveKey, "_" );
+                var yearNumber = listFirst( archiveKey, "_" );
+                var firstDate = createDate( yearNumber, monthNumber, 1);
+                var lastDate = dateAdd( "d", -1, dateAdd( "m", 1, firstDate ) ); // plus 1 month minus 1 day ==> last day of current month
+
+                firstDate = dateFormat( firstDate, "yyyy-mm-dd" );
+                lastDate = dateFormat( lastDate, "yyyy-mm-dd" );
+
+                archiveFilterDetails.append( "( blog_post.publish_date >= '#firstDate#' and blog_post.publish_date <= '#lastDate#' )" );
+            }
+
+            filter &= " and ( " & archiveFilterDetails.toList( " or " ) & " )";
         }
 
         if ( arguments.topPostsOnly ) {

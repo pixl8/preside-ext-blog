@@ -1,7 +1,7 @@
 component {
 
     property name="blogService" inject="blogService";
-    property name="sessionStorage"  inject="coldbox:plugin:sessionStorage";
+    property name="blogFilters" inject="blogFilters";
 
     private function index( event, rc, prc, args={} ) {
 
@@ -32,67 +32,55 @@ component {
         var blog            = prc.presidePage       ?: {};
         var initialMaxRows  = blog.initial_max_rows ?: 10;
         var maxRows         = rc.maxRows            ?: initialMaxRows;
-        var addTagFilter    = rc.add_tag_filter     ?: "";
-        var removeTagFilter = rc.remove_tag_filter  ?: "";
-        var filterKey       = "blog_tag_filter" & event.getCurrentPageId();
+        var blogId          = event.getCurrentPageId();
 
-        var tagFilters = sessionStorage.exists( filterKey ) ? sessionStorage.getVar( filterKey ) : [];
-
-        if ( addTagFilter.len() && !tagFilters.containsNoCase( addTagFilter ) ) {
-            tagFilters.append( addTagFilter );
-        }
-
-        if ( removeTagFilter.len() ) {
-            var i = tagFilters.findNoCase( removeTagFilter );
-            if ( i > 0 ) {
-                tagFilters.deleteAt( i );
-            }
-        }
-
-        sessionStorage.setVar( filterKey, tagFilters );
+        blogFilters.manage(
+              blogId = blogId
+            , action = rc.filterAction ?: ""
+            , type   = rc.filterType   ?: ""
+            , value  = rc.filterValue  ?: ""
+        );
 
         var q = blogService.getFilteredBlogPosts(
-              parentPage              = event.getCurrentPageId()
-            , tags                    = tagFilters
+              parentPage              = blogId
+            , tags                    = blogFilters.getTagFilterIds( blogId )
+            , postAuthors             = blogFilters.getAuthorFilterIds( blogId )
+            , archives                = blogFilters.getArchiveFilterKeys( blogId )
             , maxRows                 = maxRows
             , includeTotalRecordCount = true
         );
 
-        if ( arguments.rowgrouping > 0 ) {
+        prc.blogPosts      = _handleRowGrouping( q, arguments.rowgrouping );
+        prc.tagFilters     = blogFilters.getTagFilters( blogId );
+        prc.authorFilters  = blogFilters.getAuthorFilters( blogId );
+        prc.archiveFilters = blogFilters.getArchiveFilters( blogId );
+        prc.hasMore        = !isEmpty( prc.blogPosts ) && prc.blogPosts._totalRecordCount > prc.blogPosts.recordCount;
+    }
 
-            // duplicate required as otherwise the cache is manipulated
-            q = duplicate( q );
+    private query function _handleRowGrouping( required query q, required numeric rowGrouping ) {
 
-            // transform so that it is easy to display in the view (it's e.g. a 2 column grid in which case each row has 2 blog post teasers)
-            var rowIndex = 1;
-            var colIndex = 1;
+        if ( arguments.rowGrouping <= 0 ) {
+            return q;
+        }
 
-            q.addColumn("_row", "int", []);
+        // duplicate required as otherwise the cache is manipulated
+        var result = duplicate( arguments.q );
 
-            loop query="q" {
-                q.setCell("_row", rowIndex, CurrentRow);
-                colIndex++;
-                if (colIndex gt arguments.rowgrouping) {
-                    colIndex = 1;
-                    rowIndex++;
-                }
+        // transform so that it is easy to display in the view (it's e.g. a 2 column grid in which case each row has 2 blog post teasers)
+        var rowIndex = 1;
+        var colIndex = 1;
+
+        result.addColumn( "_row", "int", [] );
+
+        loop query="result" {
+            result.setCell( "_row", rowIndex, CurrentRow );
+            colIndex++;
+            if ( colIndex > arguments.rowgrouping ) {
+                colIndex = 1;
+                rowIndex++;
             }
         }
 
-        prc.blogPosts = q;
-        prc.filterTags = _getSessionFilterTags( event.getCurrentPageId() );
-        prc.hasMore = !isEmpty( prc.blogPosts ) && prc.blogPosts._totalRecordCount > prc.blogPosts.recordCount;
-    }
-
-    private query function _getSessionFilterTags( required string blog ) {
-
-        var filterKey  = "blog_tag_filter" & arguments.blog;
-        var tagFilters = sessionStorage.exists( filterKey ) ? duplicate( sessionStorage.getVar( filterKey ) ) : [];
-
-        if ( isEmpty( tagFilters ) ) {
-            return queryNew( "dummy" );
-        }
-
-        return blogService.getBlogPostTags( parentPage=arguments.blog, tags=tagFilters );
+        return result;
     }
 }

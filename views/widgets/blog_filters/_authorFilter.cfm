@@ -14,8 +14,8 @@
             <div class="collapsible-item-content">
                 <ul>
                     <cfloop query="args.data">
-                        <!--- TODO: link to filter --->
-                        <li><a href="##">#name# <span class="count">#post_count#</span></a></li>
+                        <cfset link = event.buildLink( page=args.blog, querystring="filterAction=add&filterType=authors&filterValue=" & id ) />
+                        <li><a href="#link#">#name# <span class="count">#post_count#</span></a></li>
                     </cfloop>
                 </ul>
             </div>

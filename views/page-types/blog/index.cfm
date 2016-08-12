@@ -16,7 +16,7 @@
                             <h2 class="heading-border-title">#args.title#</h2>
                         </div>
 
-                        #renderView( view="page-types/blog/_tagFilters", args={ tags=prc.filterTags, blog=event.getCurrentPageId() } )#
+                        #renderView( view="page-types/blog/_filters", args={ tags=prc.tagFilters, authors=prc.authorFilters, archives=prc.archiveFilters, blogId=event.getCurrentPageId() } )#
 
                         <div class="articles mod-listing">
 
