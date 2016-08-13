@@ -2,7 +2,7 @@
 <form i18nBaseUri="widgets.rss_feed:">
 	<tab>
 		<fieldset>
-			<field name="blog" />
+			<field name="blog" control="objectpicker" object="blog" required="true" />
 		</fieldset>
 	</tab>
 </form>

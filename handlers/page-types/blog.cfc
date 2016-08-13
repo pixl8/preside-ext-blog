@@ -2,6 +2,7 @@ component {
 
     property name="blogService" inject="blogService";
     property name="blogFilters" inject="blogFilters";
+    property name="siteTreeService" inject="siteTreeService";
 
     private function index( event, rc, prc, args={} ) {
 
@@ -25,6 +26,44 @@ component {
             , id            = event.getCurrentPageId()
             , args          = args
         );
+    }
+
+    public any function rss( event, rc, prc, args={} ) {
+
+        var blogId = rc.blogId ?: event.getCurrentPageId();
+
+        var blogListingPage = siteTreeService.getPage(
+              id           = blogId
+            , selectFields = ["page.title","page.id","page.teaser"]
+        );
+
+        var blogPosts = blogService.getFilteredBlogPosts( parentPage=blogId );
+
+        var blogFeed          = {};
+        blogFeed.title        = XmlFormat( blogListingPage.title );
+        blogFeed.link         = event.buildLink( page = blogListingPage.id );
+        blogFeed.description  = XmlFormat( blogListingPage.teaser );
+        blogFeed.atomSelfLink = event.buildLink( linkTo = 'page-types.blog.rss', queryString='blogId=#blogId#' );
+        blogFeed.items        = queryNew( 'title,link,pubdate,content_encoded,description' );
+
+        for ( var blogPost in blogPosts ) {
+
+            blogFeed.items.addRow();
+            blogFeed.items.setCell( "title"           , XmlFormat( blogPost.title )           );
+            blogFeed.items.setCell( "link"            , event.buildLink( page = blogPost.id ) );
+            blogFeed.items.setCell( "pubdate"         , blogPost.publish_date                 );
+            blogFeed.items.setCell( "content_encoded" , UrlEncodedFormat( blogPost.teaser )   );
+            blogFeed.items.setCell( "description"     , XmlFormat( blogPost.teaser )          );
+        }
+
+        var rssPlugin = getPlugin(
+              pluginName   = "FeedGenerator"
+            , customPlugin = true
+        );
+
+        var blogFeedSyndication = rssPlugin.createFeed( feedStruct=blogFeed );
+
+        event.renderData( type="plain", data=blogFeedSyndication, contentType="text/xml" );
     }
 
     private void function _getBlogPosts( event, rc, prc, numeric rowgrouping=0 ) {
