@@ -180,7 +180,7 @@
         }
 
         var blogPosts = _getBlogPostDao().selectData(
-              selectFields = [ "id", "publish_date" ]
+              selectFields = [ "blog_post.id", "blog_post.publish_date" ]
             , filter       = filter
             , filterParams = params
             , savedFilters = [ "livePages" ]
