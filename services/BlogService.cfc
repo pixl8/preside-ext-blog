@@ -71,7 +71,7 @@
         }
 
         if ( arguments.topPostsOnly ) {
-            filter &= " and blog_post.top_post = 1";
+            filter &= " and blog_post.top_post = '1'";
         }
 
         var args = {
@@ -115,7 +115,7 @@
     public query function getBlogPostTags( string parentPage = "", boolean featuredOnly=false, array tags=[] ) {
 
         // workaround to be able to use the saved filter, otherwise page table is not joined at all
-        var filter = "page.active = 1";
+        var filter = "page.active = '1'";
         var params = {};
 
         if ( arguments.parentPage.len() ) {
@@ -124,7 +124,7 @@
         }
 
         if ( arguments.featuredOnly ) {
-            filter &= " and blog_tag.featured = 1"
+            filter &= " and blog_tag.featured = '1'"
         }
 
         if ( arguments.tags.len() ) {
@@ -145,7 +145,7 @@
     public query function getBlogPostAuthors( string parentPage = "", array authors=[] ) {
 
         // workaround to be able to use the saved filter, otherwise page table is not joined at all
-        var filter = "page.active = 1";
+        var filter = "page.active = '1'";
         var params = {};
 
         if ( arguments.parentPage.len() ) {
@@ -171,7 +171,7 @@
     public array function getBlogPostArchive( string parentPage = "" ) {
 
         // workaround to be able to use the saved filter, otherwise page table is not joined at all
-        var filter = "page.active = 1";
+        var filter = "page.active = '1'";
         var params = {};
 
         if ( arguments.parentPage.len() ) {
