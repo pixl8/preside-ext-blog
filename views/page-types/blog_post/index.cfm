@@ -6,11 +6,9 @@
 <cf_presideparam name="args.authorName" 	   field="postAuthor.name" 		  	   editable="false" />
 <cf_presideparam name="args.authorDescription" field="postAuthor.description" 	   editable="false" />
 <cf_presideparam name="args.authorPicture" 	   field="postAuthor.picture" 		   editable="false" />
-<cf_presideparam name="args.tags"       	   field="group_concat( distinct tags.id )" default="" />
 
 <cfscript>
-	bannerImageSource = len(args.main_image) ? event.buildLink( assetId=args.main_image, derivative= "blogPostBanner"  ) : "";
-
+	bannerImageSource = len( args.main_image ) ? event.buildLink( assetId=args.main_image, derivative= "blogPostBanner"  ) : "";
 	// TODO: check if we should integrate that in the extension or have it in the skeleton
 	event.include( assetId="/css/specific/blog-post/", throwOnMissing=false )
 		 .include( assetId="jq-parallax", throwOnMissing=false );
@@ -40,12 +38,12 @@
 
 						#args.main_content#
 
-						<cfif listLen(args.tags) gt 0>
+						<cfif prc.tags.recordCount>
 							<div class="tag-list">
 								<p>#translateResource( uri='page-types.blog_post:post.tag_hint' )#</p>
 								<ul class="tags">
-									<cfloop list="#args.tags#" index="tagID">
-										#renderView( presideobject="blog_tag", view="/general/_tag", filter={ id=tagID } )#
+									<cfloop query="prc.tags">
+										<li><a href="#event.buildLink( page=prc.presidePage.parent_page, queryString='filterAction=add&filterType=tags&filterValue=#prc.tags.id#' )#">#prc.tags.label#</a></li>
 									</cfloop>
 								</ul>
 							</div>
