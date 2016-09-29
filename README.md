@@ -27,7 +27,7 @@ From the root of your application, type the following command:
 
 From the root of your application, type the following command:
 
-    box install git+https://github.com/pixl8/preside-ext-blog.git
+    box install preside-ext-blog
 
 ## Contribution
 

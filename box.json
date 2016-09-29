@@ -1,13 +1,12 @@
 {
-    "name":"PresideCMS Extension: Blog",
-    "version":"0.5.8",
+    "name":"Preside Extension: Blog",
+    "version":"0.5.9",
     "author":"Pixl8 Interactive",
-    "createPackageDirectory":true,
-    "packageDirectory":"application/extensions/preside-ext-blog",
     "homepage":"https://github.com/pixl8/preside-ext-blog",
-    "documentation":"",
-    "type":"cms",
-    "location":"https://github.com/pixl8/preside-ext-blog/archive/0.5.8.zip",
+    "type":"preside-extensions",
+    "directory": "application/extensions",
+    "location":"https://github.com/pixl8/preside-ext-blog/archive/0.5.9.zip",
+    "type":"preside-extensions",
     "repository":{
         "type":"git",
         "URL":"https://github.com/pixl8/preside-ext-blog.git"
