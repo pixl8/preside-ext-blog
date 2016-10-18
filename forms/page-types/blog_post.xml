@@ -4,6 +4,7 @@
 		<fieldset id="main">
 			<field sortorder="70" binding="blog_post.postAuthor"    quickAdd="true" quickEdit="true" />
 			<field sortorder="71" binding="blog_post.publish_date"  required="true" />
+			<!-- TODO: probably remove this -->
 			<field sortorder="80" binding="page.active"             required="true" />
 		</fieldset>
 	</tab>

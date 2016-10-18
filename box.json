@@ -1,11 +1,11 @@
 {
     "name":"Preside Extension: Blog",
-    "version":"0.5.9",
+    "version":"0.5.10",
     "author":"Pixl8 Interactive",
     "homepage":"https://github.com/pixl8/preside-ext-blog",
     "type":"preside-extensions",
     "directory": "application/extensions",
-    "location":"https://github.com/pixl8/preside-ext-blog/archive/0.5.9.zip",
+    "location":"https://github.com/pixl8/preside-ext-blog/archive/0.5.10.zip",
     "type":"preside-extensions",
     "repository":{
         "type":"git",
