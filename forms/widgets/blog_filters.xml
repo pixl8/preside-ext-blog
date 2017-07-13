@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form i18nBaseUri="widgets.blog_filters:">
-    <tab>
-        <fieldset>
+    <tab id="main">
+        <fieldset id="main">
             <field name="blog"                     sortorder="5"  control="objectpicker" object="blog"  required="true"   />
             <field name="include_author_filter"    sortorder="10" control="yesnoswitch"  default="true"                   />
             <field name="author_filter_title"      sortorder="20" control="textinput"    default="Authors" maxlength="16" />
             <field name="author_filter_expanded"   sortorder="30" control="yesnoswitch"  default="false"                  />
-            
+
             <field name="include_archive_filter"   sortorder="40" control="yesnoswitch"  default="true"                   />
             <field name="archive_filter_title"     sortorder="50" control="textinput"    default="Archive" maxlength="16" />
             <field name="archive_filter_expanded"  sortorder="60" control="yesnoswitch"  default="false"                  />
