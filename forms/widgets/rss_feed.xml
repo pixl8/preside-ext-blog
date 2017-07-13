@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form i18nBaseUri="widgets.rss_feed:">
-	<tab>
-		<fieldset>
+	<tab id="main">
+		<fieldset id="main">
 			<field name="blog" control="objectpicker" object="blog" required="true" />
 		</fieldset>
 	</tab>
