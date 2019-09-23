@@ -3,6 +3,7 @@ component {
     property name="blogService" inject="blogService";
     property name="blogFilters" inject="blogFilters";
     property name="siteTreeService" inject="siteTreeService";
+    property name="feedGenerator"   inject="feedGenerator@cbfeeds";
 
     private function index( event, rc, prc, args={} ) {
 
@@ -19,7 +20,7 @@ component {
     private function twocol( event, rc, prc, args={} ) {
 
         _getBlogPosts( event=event, rc=rc, prc=prc, rowgrouping=2 );
-        
+
         return renderView(
               view          = 'page-types/blog/twocol'
             , presideObject = 'blog'
@@ -56,12 +57,7 @@ component {
             blogFeed.items.setCell( "description"     , XmlFormat( blogPost.teaser )          );
         }
 
-        var rssPlugin = getPlugin(
-              pluginName   = "FeedGenerator"
-            , customPlugin = true
-        );
-
-        var blogFeedSyndication = rssPlugin.createFeed( feedStruct=blogFeed );
+        var blogFeedSyndication = feedGenerator.createFeed( feedStruct=blogFeed );
 
         event.renderData( type="plain", data=blogFeedSyndication, contentType="text/xml" );
     }
