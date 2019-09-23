@@ -16,5 +16,11 @@
     "ignore":[
         ".git/*",
         ".gitignore"
-    ]
+    ],
+    "dependencies":{
+        "cbfeeds":"^1.2.0-snapshot"
+    },
+    "installPaths":{
+        "cbfeeds":"modules/cbfeeds/"
+    }
 }
